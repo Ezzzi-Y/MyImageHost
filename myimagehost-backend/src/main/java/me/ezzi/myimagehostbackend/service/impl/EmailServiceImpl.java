@@ -85,6 +85,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+
     @Override
     public boolean validVerificationCode(String email, String verificationCode) {
         Assert.hasText(email, MessageConstant.LACK_PARAM);

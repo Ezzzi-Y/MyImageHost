@@ -138,17 +138,49 @@ public class ImageServiceImpl implements ImageService {
             throw new BaseException(MessageConstant.USER_WRONG);
         }
 
-        imageMapper.deleteBatch(ids);
-        
+        // 计算需要扣减的空间和数量
+        long totalSize = list.stream().mapToLong(Image::getSize).sum();
+        int count = list.size();
+
+        // 在删除数据库记录之前，先检查哪些URL只被当前要删除的记录引用
+        // 只有当URL的引用计数等于当前批次中该URL出现的次数时，才删除OSS文件
         List<String> objectNamesToDelete = list.stream()
                 .map(Image::getUrl)
-                .filter(url -> imageMapper.countByUrl(url) == 0)
+                .distinct()
+                .filter(url -> {
+                    long totalCount = imageMapper.countByUrl(url);
+                    long deleteCount = list.stream().filter(img -> img.getUrl().equals(url)).count();
+                    return totalCount == deleteCount;
+                })
                 .map(this::extractObjectName)
                 .collect(Collectors.toList());
 
+        // 收集需要删除的MD5对应的Redis key（只删除最后一个引用）
+        List<String> redisKeysToDelete = list.stream()
+                .filter(img -> {
+                    long totalCount = imageMapper.countByUrl(img.getUrl());
+                    long deleteCount = list.stream().filter(i -> i.getUrl().equals(img.getUrl())).count();
+                    return totalCount == deleteCount;
+                })
+                .map(img -> RedisConstant.FILE_MD5_PREFIX + img.getMd5())
+                .distinct()
+                .collect(Collectors.toList());
+
+        // 删除数据库记录
+        imageMapper.deleteBatch(ids);
+
+        // 删除OSS文件（只删除不再被引用的文件）
         if (!objectNamesToDelete.isEmpty()) {
             aliOssUtil.deleteBatch(objectNamesToDelete);
         }
+
+        // 删除Redis缓存（只删除不再被引用的MD5记录）
+        if (!redisKeysToDelete.isEmpty()) {
+            redisTemplate.delete(redisKeysToDelete);
+        }
+
+        // 扣减用户配额
+        userService.delete(totalSize, count);
     }
 
     @Override

@@ -25,5 +25,7 @@ public interface UserService {
 
     void upload(Long Size);
 
+    void delete(Long size, Integer count);
+
     QuotaVO getQuota();
 }

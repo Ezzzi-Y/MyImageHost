@@ -47,5 +47,7 @@ public interface UserMapper {
 
     void increaseUsedSpace(Long userId,Long size);
 
+    void decreaseUsedSpace(Long userId, Long size, Integer count);
+
     Long countByUrl(String url);
 }

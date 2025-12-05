@@ -96,5 +96,14 @@
         WHERE id = #{userId}
     </update>
 
+    <update id="decreaseUsedSpace">
+        UPDATE users
+        SET
+            used_space = GREATEST(0, used_space - #{size}),
+            used_count = GREATEST(0, used_count - #{count}),
+            update_time = NOW()
+        WHERE id = #{userId}
+    </update>
+
 
 </mapper>

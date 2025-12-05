@@ -96,6 +96,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void delete(Long size, Integer count) {
+        Long userId = StpUtil.getLoginIdAsLong();
+        userMapper.decreaseUsedSpace(userId, size, count);
+    }
+
+    @Override
     public QuotaVO getQuota() {
         Long userId = StpUtil.getLoginIdAsLong();
         List<UserVO> list = userMapper.search(User.builder().id(userId).build());

@@ -5,6 +5,7 @@ public interface EmailService {
 
     void sendVerificationCode(String email);
 
+
     boolean validVerificationCode(String email,String verificationCode);
 
 }
