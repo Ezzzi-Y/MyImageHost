@@ -268,13 +268,6 @@ server: {
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
 
-## 👨‍💻 作者
-
-**Ezzi**
-
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: xingyuan_guo@outlook.com
-
 ## 🙏 致谢
 
 感谢以下开源项目：
