@@ -1,0 +1,17 @@
+package me.ezzi.myimagehostbackend;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@SpringBootApplication
+@MapperScan("me.ezzi.myimagehostbackend.mapper")
+@EnableScheduling
+public class MyimagehostBackendApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MyimagehostBackendApplication.class, args);
+    }
+
+}

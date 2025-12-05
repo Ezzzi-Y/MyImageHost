@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.ezzi.myimagehostbackend.mapper.ImageMapper">
+
+    <!-- 批量删除（按图片 id） -->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        DELETE FROM images
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 批量查询（按图片 id） -->
+    <select id="queryBatch" parameterType="java.util.List" resultType="me.ezzi.myimagehostbackend.pojo.entity.Image">
+        SELECT *
+        FROM images
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 按用户id删除所有图片（XML版本，允许扩展） -->
+    <delete id="deleteAllByUserId" parameterType="long">
+        DELETE FROM images WHERE user_id = #{userId}
+    </delete>
+
+    <select id="searchByAlias" resultType="me.ezzi.myimagehostbackend.pojo.entity.Image">
+        SELECT *
+        FROM images
+        WHERE user_id = #{userId} and alias LIKE CONCAT('%', #{alias}, '%')
+    </select>
+
+    <select id="countByUrl" resultType="int">
+        SELECT COUNT(*) FROM images WHERE url = #{url}
+    </select>
+</mapper>

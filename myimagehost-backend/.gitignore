@@ -1,0 +1,22 @@
+# ===== Backend Ignore (Spring Boot + Maven) =====
+
+# Maven build
+target/
+
+# Logs
+*.log
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# Maven wrapper
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Build artifacts
+*.class
+
+# Sensitive YAML configs (never upload)
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml

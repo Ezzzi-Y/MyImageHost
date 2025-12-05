@@ -1,0 +1,19 @@
+# ===== Frontend Ignore (Vue + npm) =====
+
+node_modules/
+dist/
+*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor settings
+.idea/
+.vscode/
+
+# Env files (sensitive)
+.env
+.env.*.local

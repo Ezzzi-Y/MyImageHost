@@ -1,0 +1,64 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: MyImageHost
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: ${db.driver-class-name}
+  data:
+    redis:
+      host: ${redis.host}
+      port: ${redis.port}
+      database: ${redis.database}
+      password: ${redis.password}
+  mail:
+    host: ${mail.host}
+    port: ${mail.port}
+    username: ${mail.username}
+    password: ${mail.password}
+    protocol: ${mail.protocol}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: ${mail.ssl.enable}
+          starttls:
+            enable: ${mail.starttls.enable}
+            required: ${mail.starttls.required}
+          auth: ${mail.auth}
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: me.ezzi.myimagehost.pojo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+
+sa-token:
+  token-name: token
+  timeout: 2592000
+  is-concurrent: true
+  is-share: true
+  token-style: uuid
+  is-log: false
+  active-timeout: -1
+
+ezzi:
+  alioss:
+    endpoint: ${alioss.endpoint}
+    access-key-id: ${alioss.access-key-id}
+    access-key-secret: ${alioss.access-key-secret}
+    bucket-name: ${alioss.bucket-name}

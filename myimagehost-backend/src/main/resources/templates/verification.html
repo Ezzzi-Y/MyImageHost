@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮箱验证</title>
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333333;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .email-box {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #1976d2; /* 蓝色调 */
+            color: #ffffff;
+            padding: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .body p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .code-box {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            color: #1976d2;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            background-color: #f4f7fa;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #1976d2;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .header {
+                font-size: 20px;
+            }
+            .code-box {
+                font-size: 24px;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="email-box">
+        <div class="header">
+            验证你的邮箱
+        </div>
+        <div class="body">
+            <p>你好，感谢使用本服务。请使用下面的验证码完成邮箱验证：</p>
+            <div class="code-box">
+                <div class="code" th:text="${code}">123456</div>
+            </div>
+            <p>验证码有效期为 30 分钟，请尽快使用。如非本人操作，请忽略此邮件。</p>
+        </div>
+        <div class="footer">
+            © 2025 Ezzi-Y ImageHost. 保留所有权利。
+        </div>
+    </div>
+</div>
+</body>
+</html>

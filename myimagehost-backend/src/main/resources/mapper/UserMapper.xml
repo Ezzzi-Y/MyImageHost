@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.ezzi.myimagehostbackend.mapper.UserMapper">
+
+    <!-- 动态更新用户信息 -->
+    <update id="updateUser" parameterType="me.ezzi.myimagehostbackend.pojo.entity.User">
+        UPDATE users
+        <set>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="password != null">password = #{password},</if>
+
+            <if test="role != null">role = #{role},</if>
+            <if test="enabled != null">enabled = #{enabled},</if>
+            <if test="quotaSpace != null">quota_space = #{quotaSpace},</if>
+            <if test="quotaCount != null">quota_count = #{quotaCount},</if>
+            <if test="usedSpace != null">used_space = #{usedSpace},</if>
+            <if test="usedCount != null">used_count = #{usedCount},</if>
+
+            <if test="disabledUntil != null">disabled_until = #{disabledUntil},</if>
+            <if test="disableReason != null">disable_reason = #{disableReason},</if>
+
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- User 转 UserVO 的结果映射 -->
+    <resultMap id="UserVOMap" type="me.ezzi.myimagehostbackend.pojo.vo.UserVO">
+        <id property="id" column="id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+        <result property="role" column="role"/>
+        <result property="enabled" column="enabled"/>
+        <result property="quotaSpace" column="quota_space"/>
+        <result property="quotaCount" column="quota_count"/>
+        <result property="usedSpace" column="used_space"/>
+        <result property="usedCount" column="used_count"/>
+        <result property="disabledUntil" column="disabled_until"/>
+        <result property="disableReason" column="disable_reason"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!-- 动态查询 UserVO 列表 -->
+    <select id="search"
+            parameterType="me.ezzi.myimagehostbackend.pojo.entity.User"
+            resultMap="UserVOMap">
+        SELECT
+        id,
+        nickname,
+        email,
+        role,
+        enabled,
+        quota_space,
+        quota_count,
+        used_space,
+        used_count,
+        disabled_until,
+        disable_reason,
+        create_time,
+        update_time
+        FROM users
+        <where>
+            <if test="id != null">AND id = #{id}</if>
+            <if test="nickname != null and nickname != ''">AND nickname LIKE CONCAT('%', #{nickname}, '%')</if>
+            <if test="email != null and email != ''">AND email LIKE CONCAT('%', #{email}, '%')</if>
+            <if test="role != null and role != ''">AND role = #{role}</if>
+            <if test="enabled != null">AND enabled = #{enabled}</if>
+
+            <if test="quotaSpace != null">AND quota_space = #{quotaSpace}</if>
+            <if test="quotaCount != null">AND quota_count = #{quotaCount}</if>
+            <if test="usedSpace != null">AND used_space = #{usedSpace}</if>
+            <if test="usedCount != null">AND used_count = #{usedCount}</if>
+
+            <if test="disabledUntil != null">AND disabled_until = #{disabledUntil}</if>
+            <if test="disableReason != null and disableReason != ''">
+                AND disable_reason LIKE CONCAT('%', #{disableReason}, '%')
+            </if>
+
+            <if test="createTime != null">AND create_time = #{createTime}</if>
+            <if test="updateTime != null">AND update_time = #{updateTime}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <update id="increaseUsedSpace">
+        UPDATE users
+        SET
+            used_space = used_space + #{size},
+            used_count = used_count + 1,
+            update_time = NOW()
+        WHERE id = #{userId}
+    </update>
+
+
+</mapper>

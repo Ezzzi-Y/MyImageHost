@@ -1,0 +1,1471 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "默认模块",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "管理端接口"
+    },
+    {
+      "name": "用户端接口"
+    },
+    {
+      "name": "账户相关"
+    }
+  ],
+  "paths": {
+    "/admin/list": {
+      "get": {
+        "summary": "查询用户列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "用户ID"
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "用户邮箱"
+                          },
+                          "role": {
+                            "type": "string",
+                            "description": "用户角色（管理员/用户）"
+                          },
+                          "nickname": {
+                            "type": "string",
+                            "description": "用户昵称"
+                          },
+                          "quotaSpace": {
+                            "type": "integer",
+                            "description": "空间配额 单位：字节"
+                          },
+                          "quotaCount": {
+                            "type": "integer",
+                            "description": "可上传文件数量 单位：个"
+                          },
+                          "usedSpace": {
+                            "type": "integer",
+                            "description": "已使用空间"
+                          },
+                          "usedCount": {
+                            "type": "integer",
+                            "description": "已上传数量"
+                          },
+                          "createTime": {
+                            "type": "string"
+                          },
+                          "updateTime": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": [
+                    {
+                      "id": 6,
+                      "email": "xingyuan_guo@outlook.com",
+                      "role": "ADMIN",
+                      "nickname": "管理员",
+                      "quotaSpace": 104857600,
+                      "quotaCount": 100,
+                      "usedSpace": 0,
+                      "usedCount": 0,
+                      "createTime": "2025-12-01 18:09:22",
+                      "updateTime": "2025-12-01 20:53:44"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/disableUser": {
+      "post": {
+        "summary": "禁用用户账号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "integer"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "durationDays": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "userId",
+                  "reason",
+                  "durationDays"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/enableUser/{id}": {
+      "put": {
+        "summary": "启用用户",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 7,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/deleteUser/{id}": {
+      "delete": {
+        "summary": "删除用户",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 7,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/updateSpace": {
+      "post": {
+        "summary": "修改用户空间配额",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "quotaSpace": {
+                    "type": "integer"
+                  },
+                  "quotaCount": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id",
+                  "quotaSpace",
+                  "quotaCount"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/searchUser": {
+      "post": {
+        "summary": "搜索用户",
+        "deprecated": false,
+        "description": "根据条件筛选用户，返回用户列表",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "邮箱"
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "description": "昵称"
+                  },
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "账号状态"
+                  }
+                }
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "用户ID"
+                          },
+                          "email": {
+                            "type": "string",
+                            "description": "邮箱"
+                          },
+                          "role": {
+                            "type": "string",
+                            "description": "角色"
+                          },
+                          "nickname": {
+                            "type": "string",
+                            "description": "昵称"
+                          },
+                          "enabled": {
+                            "type": "boolean",
+                            "description": "账号状态"
+                          },
+                          "quotaSpace": {
+                            "type": "integer",
+                            "description": "总空间配额"
+                          },
+                          "quotaCount": {
+                            "type": "integer",
+                            "description": "总可上传次数"
+                          },
+                          "usedSpace": {
+                            "type": "integer",
+                            "description": "已使用空间"
+                          },
+                          "usedCount": {
+                            "type": "integer",
+                            "description": "已上传次数"
+                          },
+                          "disabledUntil": {
+                            "type": "string",
+                            "description": "解封时间"
+                          },
+                          "disableReason": {
+                            "type": "string",
+                            "description": "被封禁原因"
+                          },
+                          "createTime": {
+                            "type": "string",
+                            "description": "创建时间"
+                          },
+                          "updateTime": {
+                            "type": "string",
+                            "description": "更新时间"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "email",
+                          "role",
+                          "nickname",
+                          "enabled",
+                          "quotaSpace",
+                          "quotaCount",
+                          "usedSpace",
+                          "usedCount",
+                          "disabledUntil",
+                          "disableReason",
+                          "createTime",
+                          "updateTime"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/getUser/{id}": {
+      "get": {
+        "summary": "根据id搜索用户",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": 8,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "enabled": {
+                          "type": "boolean"
+                        },
+                        "quotaSpace": {
+                          "type": "integer"
+                        },
+                        "quotaCount": {
+                          "type": "integer"
+                        },
+                        "usedSpace": {
+                          "type": "integer"
+                        },
+                        "usedCount": {
+                          "type": "integer"
+                        },
+                        "disabledUntil": {
+                          "type": "null"
+                        },
+                        "disableReason": {
+                          "type": "null"
+                        },
+                        "createTime": {
+                          "type": "string"
+                        },
+                        "updateTime": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "role",
+                        "nickname",
+                        "enabled",
+                        "quotaSpace",
+                        "quotaCount",
+                        "usedSpace",
+                        "usedCount",
+                        "disabledUntil",
+                        "disableReason",
+                        "createTime",
+                        "updateTime"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": {
+                    "id": 8,
+                    "email": "2569856768@qq.com",
+                    "role": "USER",
+                    "nickname": "构型元",
+                    "enabled": true,
+                    "quotaSpace": 104857600,
+                    "quotaCount": 100,
+                    "usedSpace": 0,
+                    "usedCount": 0,
+                    "disabledUntil": null,
+                    "disableReason": null,
+                    "createTime": "2025-12-01 21:10:10",
+                    "updateTime": "2025-12-01 21:13:42"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/upload": {
+      "post": {
+        "summary": "上传文件",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户端接口"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "multipart/form-data",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "alias": {
+                    "description": "用户给图片起的别名，防止用户忘记该图片的内容",
+                    "example": "别名",
+                    "type": "string"
+                  },
+                  "file": {
+                    "format": "binary",
+                    "type": "string",
+                    "example": "file://C:\\Users\\25698\\Pictures\\壁纸\\微信图片_20250613152532.jpg"
+                  }
+                }
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/listImage": {
+      "get": {
+        "summary": "分页查询文件列表",
+        "deprecated": false,
+        "description": "分页查询文件列表，以上传时间倒序",
+        "tags": [
+          "用户端接口"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer",
+                          "description": "总记录数"
+                        },
+                        "records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "description": "图片ID"
+                              },
+                              "userId": {
+                                "type": "integer",
+                                "description": "图片所属用户ID"
+                              },
+                              "originalName": {
+                                "type": "string",
+                                "description": "图片原始名称"
+                              },
+                              "alias": {
+                                "type": "string",
+                                "description": "图片别名"
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "图片URL"
+                              },
+                              "md5": {
+                                "type": "string",
+                                "description": "图片MD5"
+                              },
+                              "size": {
+                                "type": "integer",
+                                "description": "图片大小字节数"
+                              },
+                              "createTime": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "userId",
+                              "originalName",
+                              "alias",
+                              "url",
+                              "md5",
+                              "size",
+                              "createTime"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "records"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/deleteImageBatch": {
+      "delete": {
+        "summary": "用户批量删除文件",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户端接口"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "description": "图片id"
+                    }
+                  }
+                },
+                "required": [
+                  "ids"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/updateAlias": {
+      "put": {
+        "summary": "修改图片别名",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户端接口"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "图片id"
+                  },
+                  "alias": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "alias"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/searchImages": {
+      "get": {
+        "summary": "按别名搜索图片",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户端接口"
+        ],
+        "parameters": [
+          {
+            "name": "alias",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "哈哈哈",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "userId": {
+                            "type": "integer"
+                          },
+                          "originalName": {
+                            "type": "string"
+                          },
+                          "alias": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "md5": {
+                            "type": "string"
+                          },
+                          "size": {
+                            "type": "integer"
+                          },
+                          "createTime": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/quota": {
+      "get": {
+        "summary": "获取额度信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户端接口"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "quotaSpace": {
+                          "type": "integer"
+                        },
+                        "quotaCount": {
+                          "type": "integer"
+                        },
+                        "usedSpace": {
+                          "type": "integer"
+                        },
+                        "usedCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "quotaSpace",
+                        "quotaCount",
+                        "usedSpace",
+                        "usedCount"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "账户相关"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "quotaSpace": {
+                          "type": "integer"
+                        },
+                        "quotaCount": {
+                          "type": "integer"
+                        },
+                        "usedSpace": {
+                          "type": "integer"
+                        },
+                        "usedCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "email",
+                        "nickname",
+                        "role",
+                        "token",
+                        "quotaSpace",
+                        "quotaCount",
+                        "usedSpace",
+                        "usedCount"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/email/verification": {
+      "get": {
+        "summary": "获取邮箱验证码",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "账户相关"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "xingyuan_guo@outlook.com",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgetPassword": {
+      "post": {
+        "summary": "忘记密码",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "账户相关"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "verificationCode": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password",
+                  "verificationCode"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "注册",
+        "deprecated": false,
+        "description": "注册接口，需要输入邮箱验证码，后端会进行校验。校验成功后，会返回一个token，前端可以根据这个token登录。",
+        "tags": [
+          "账户相关"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nickname": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "verificationCode": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nickname",
+                  "email",
+                  "password",
+                  "verificationCode"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "nickname": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "quotaSpace": {
+                          "type": "integer"
+                        },
+                        "quotaCount": {
+                          "type": "integer"
+                        },
+                        "usedSpace": {
+                          "type": "integer"
+                        },
+                        "usedCount": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "email",
+                        "nickname",
+                        "role",
+                        "token",
+                        "quotaSpace",
+                        "quotaCount",
+                        "usedSpace",
+                        "usedCount"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "responses": {},
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}
