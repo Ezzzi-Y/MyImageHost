@@ -24,6 +24,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             if (requestPath.contains("/admin/")) {
                 StpUtil.checkRole(RoleConstant.ADMIN);
             }
+
         }))
                 .addPathPatterns("/**")
                 .excludePathPatterns(

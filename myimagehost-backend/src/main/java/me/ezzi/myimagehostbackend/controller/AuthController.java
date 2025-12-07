@@ -26,9 +26,11 @@ public class AuthController {
     private EmailService emailService;
 
     @GetMapping("/email/verification")
-    public Result getVerificationCode(@RequestParam @NotBlank(message = "邮箱不能为空") @Email(message = "邮箱格式不正确") String email){
-        log.info("请求发送验证码至: {}", email);
-        emailService.sendVerificationCode(email);
+    public Result getVerificationCode(
+            @RequestParam @NotBlank(message = "邮箱不能为空") @Email(message = "邮箱格式不正确") String email,
+            @RequestParam(required = false, defaultValue = "register") String type){
+        log.info("请求发送验证码至: {}, 类型: {}", email, type);
+        emailService.sendVerificationCode(email, type);
         return Result.success();
     }
 

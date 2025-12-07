@@ -9,9 +9,11 @@ import me.ezzi.myimagehostbackend.common.constant.MessageConstant;
 import me.ezzi.myimagehostbackend.exception.BaseException;
 import me.ezzi.myimagehostbackend.pojo.entity.Result;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -36,6 +38,7 @@ public class GlobalExceptionHandler {
     /**
      * 捕获 Sa-Token 未登录异常
      */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(NotLoginException.class)
     public Result<?> exceptionHandler(NotLoginException ex) {
         log.warn("用户未登录或 Token 无效：{}", ex.getMessage());

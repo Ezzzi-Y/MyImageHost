@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.ezzi.myimagehostbackend.common.constant.MessageConstant;
 import me.ezzi.myimagehostbackend.common.constant.RedisConstant;
 import me.ezzi.myimagehostbackend.exception.BaseException;
+import me.ezzi.myimagehostbackend.mapper.UserMapper;
 import me.ezzi.myimagehostbackend.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,8 @@ import java.time.Duration;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
 
+    public static final String REGISTER = "register";
+    public static final String FORGET = "forget";
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -35,6 +38,9 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Value("${spring.mail.username}")
     private String fromEmail;
 
@@ -42,8 +48,22 @@ public class EmailServiceImpl implements EmailService {
     private static final Duration RATE_LIMIT_EXPIRE = Duration.ofMinutes(2);
 
     @Override
-    public void sendVerificationCode(String email) {
+    public void sendVerificationCode(String email, String type) {
         Assert.hasText(email, MessageConstant.LACK_PARAM);
+
+        // 根据类型校验邮箱
+        int emailCount = userMapper.countByEmail(email);
+        if (REGISTER.equals(type)) {
+            // 注册场景：邮箱不能已存在
+            if (emailCount > 0) {
+                throw new BaseException("该邮箱已被注册");
+            }
+        } else if (FORGET.equals(type)) {
+            // 忘记密码场景：邮箱必须存在
+            if (emailCount == 0) {
+                throw new BaseException("该邮箱未注册");
+            }
+        }
 
         ValueOperations<String, Object> ops = redisTemplate.opsForValue();
         

@@ -58,6 +58,8 @@ request.interceptors.response.use(
         router.push('/login')
       } else if (status === 500) {
         ElMessage.error(data?.message || '服务器错误')
+      } else if (status === 404) {
+        ElMessage.error('该行为不存在')
       } else {
         ElMessage.error(data?.message || '请求失败')
       }

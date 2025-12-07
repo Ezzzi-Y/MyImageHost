@@ -16,6 +16,9 @@ public interface UserMapper {
     @Select("select * from users where email = #{email} and password = #{password}")
     User findUserByEmailAndPassword(LoginDTO loginDTO);
 
+    @Select("select count(*) from users where email = #{email}")
+    int countByEmail(String email);
+
     @Select("select * from users")
     List<UserVO> list();
 

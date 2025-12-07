@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
             until = LocalDateTime.now().plusDays(dto.getDurationDays());
         }
         userMapper.disableUser(dto.getUserId(), dto.getReason(), until);
+        StpUtil.kickout(dto.getUserId());
     }
 
     @Override
