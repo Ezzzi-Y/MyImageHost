@@ -9,10 +9,12 @@ import me.ezzi.myimagehostbackend.common.constant.RedisConstant;
 import me.ezzi.myimagehostbackend.common.utils.AliOssUtil;
 import me.ezzi.myimagehostbackend.exception.BaseException;
 import me.ezzi.myimagehostbackend.mapper.ImageMapper;
+import me.ezzi.myimagehostbackend.mapper.UserMapper;
 import me.ezzi.myimagehostbackend.pojo.dto.ImageDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.UpdateAliasDTO;
 import me.ezzi.myimagehostbackend.pojo.entity.Image;
 import me.ezzi.myimagehostbackend.pojo.entity.PageResult;
+import me.ezzi.myimagehostbackend.pojo.entity.User;
 import me.ezzi.myimagehostbackend.pojo.vo.UserVO;
 import me.ezzi.myimagehostbackend.properties.AliOssProperties;
 import me.ezzi.myimagehostbackend.service.ImageService;
@@ -28,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -49,6 +52,8 @@ public class ImageServiceImpl implements ImageService {
     private AliOssProperties aliOssProperties;
 
     private static final Set<String> ALLOW_TYPES = Set.of("jpg", "jpeg", "png", "gif", "webp");
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -75,7 +80,14 @@ public class ImageServiceImpl implements ImageService {
         String existUrl = (String) redisTemplate.opsForValue().get(redisKey);
 
         Long userId = StpUtil.getLoginIdAsLong();
-        UserVO userVO = userService.getUserById(userId);
+        User user = User.builder()
+                .id(userId)
+                .build();
+
+        List<UserVO> collection = userMapper.search(user);
+        if (collection.size() != 1) throw new BaseException(MessageConstant.LACK_PARAM);
+        UserVO userVO = collection.get(0);
+
         long size = file.getSize();
 
         if (userVO.getUsedCount() >= userVO.getQuotaCount()) {

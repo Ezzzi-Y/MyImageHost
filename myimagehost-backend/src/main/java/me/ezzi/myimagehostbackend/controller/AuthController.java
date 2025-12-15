@@ -10,6 +10,7 @@ import me.ezzi.myimagehostbackend.pojo.entity.Result;
 import me.ezzi.myimagehostbackend.pojo.vo.LoginVO;
 import me.ezzi.myimagehostbackend.service.AuthService;
 import me.ezzi.myimagehostbackend.service.EmailService;
+import me.ezzi.myimagehostbackend.service.impl.InformationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,8 @@ public class AuthController {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private InformationServiceImpl informationServiceImpl;
 
     @GetMapping("/email/verification")
     public Result getVerificationCode(
@@ -54,4 +57,6 @@ public class AuthController {
         authService.forgetPassword(forgetPasswordDTO);
         return Result.success();
     }
+
+
 }

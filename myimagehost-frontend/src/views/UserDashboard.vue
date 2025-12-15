@@ -11,7 +11,7 @@
           </div>
         </div>
       </el-header>
-      
+
       <el-main>
         <!-- 配额信息 -->
         <el-card class="quota-card" shadow="hover">
@@ -25,20 +25,26 @@
               <div class="quota-item">
                 <div class="quota-label">空间使用</div>
                 <div class="quota-value">
-                  {{ formatSize(userStore.userInfo?.usedSpace || 0) }} / 
+                  {{ formatSize(userStore.userInfo?.usedSpace || 0) }} /
                   {{ formatSize(userStore.userInfo?.quotaSpace || 0) }}
                 </div>
-                <el-progress :percentage="spacePercentage" :color="progressColor(spacePercentage)" />
+                <el-progress
+                  :percentage="spacePercentage"
+                  :color="progressColor(spacePercentage)"
+                />
               </div>
             </el-col>
             <el-col :span="12">
               <div class="quota-item">
                 <div class="quota-label">文件数量</div>
                 <div class="quota-value">
-                  {{ userStore.userInfo?.usedCount || 0 }} / 
+                  {{ userStore.userInfo?.usedCount || 0 }} /
                   {{ userStore.userInfo?.quotaCount || 0 }}
                 </div>
-                <el-progress :percentage="countPercentage" :color="progressColor(countPercentage)" />
+                <el-progress
+                  :percentage="countPercentage"
+                  :color="progressColor(countPercentage)"
+                />
               </div>
             </el-col>
           </el-row>
@@ -63,13 +69,9 @@
             <el-icon class="el-icon--upload" :size="67">
               <UploadFilled />
             </el-icon>
-            <div class="el-upload__text">
-              拖拽图片到此处或<em>点击上传</em>
-            </div>
+            <div class="el-upload__text">拖拽图片到此处或<em>点击上传</em></div>
             <template #tip>
-              <div class="el-upload__tip">
-                支持 jpg/png/gif 等格式
-              </div>
+              <div class="el-upload__tip">支持 jpg/png/gif 等格式</div>
             </template>
           </el-upload>
         </el-card>
@@ -90,8 +92,8 @@
               </el-input>
             </el-col>
             <el-col :span="6">
-              <el-button 
-                type="danger" 
+              <el-button
+                type="danger"
                 :disabled="selectedImages.length === 0"
                 @click="handleBatchDelete"
               >
@@ -108,9 +110,9 @@
               <span>我的图片 ({{ pagination.total }})</span>
             </div>
           </template>
-          
-          <el-table 
-            :data="images" 
+
+          <el-table
+            :data="images"
             style="width: 100%"
             v-loading="loading"
             @selection-change="handleSelectionChange"
@@ -119,15 +121,20 @@
             <el-table-column prop="alias" label="别名" width="150" />
             <el-table-column label="预览" width="120">
               <template #default="scope">
-                <el-image 
-                  style="width: 80px; height: 80px" 
-                  :src="scope.row.url" 
+                <el-image
+                  style="width: 80px; height: 80px"
+                  :src="scope.row.url"
                   :preview-src-list="[scope.row.url]"
-                  fit="cover" 
+                  fit="cover"
                 />
               </template>
             </el-table-column>
-            <el-table-column prop="originalName" label="原始文件名" width="200" show-overflow-tooltip />
+            <el-table-column
+              prop="originalName"
+              label="原始文件名"
+              width="200"
+              show-overflow-tooltip
+            />
             <el-table-column label="文件大小" width="120">
               <template #default="scope">
                 {{ formatSize(scope.row.size) }}
@@ -146,9 +153,7 @@
                 <el-button size="small" type="primary" @click="copyUrl(scope.row.url)">
                   复制链接
                 </el-button>
-                <el-button size="small" @click="handleEditAlias(scope.row)">
-                  修改别名
-                </el-button>
+                <el-button size="small" @click="handleEditAlias(scope.row)"> 修改别名 </el-button>
                 <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">
                   删除
                 </el-button>
@@ -176,28 +181,26 @@
     <el-dialog v-model="uploadDialogVisible" title="上传图片" width="500px">
       <el-form :model="uploadForm" label-width="80px">
         <el-form-item label="图片别名">
-          <el-input 
-            v-model="uploadForm.alias" 
-            placeholder="请输入图片别名（方便后续查找）" 
+          <el-input
+            v-model="uploadForm.alias"
+            placeholder="请输入图片别名（方便后续查找）"
             maxlength="50"
             show-word-limit
           />
         </el-form-item>
         <el-form-item label="预览">
-          <el-image 
-            v-if="previewUrl" 
-            style="width: 100%; max-height: 300px" 
-            :src="previewUrl" 
-            fit="contain" 
+          <el-image
+            v-if="previewUrl"
+            style="width: 100%; max-height: 300px"
+            :src="previewUrl"
+            fit="contain"
           />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="uploadDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="confirmUpload" :loading="uploading">
-            上传
-          </el-button>
+          <el-button type="primary" @click="confirmUpload" :loading="uploading"> 上传 </el-button>
         </span>
       </template>
     </el-dialog>
@@ -206,9 +209,9 @@
     <el-dialog v-model="aliasDialogVisible" title="修改别名" width="500px">
       <el-form :model="aliasForm" label-width="80px">
         <el-form-item label="新别名">
-          <el-input 
-            v-model="aliasForm.alias" 
-            placeholder="请输入新的别名" 
+          <el-input
+            v-model="aliasForm.alias"
+            placeholder="请输入新的别名"
             maxlength="50"
             show-word-limit
           />
@@ -217,9 +220,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="aliasDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="confirmUpdateAlias">
-            确定
-          </el-button>
+          <el-button type="primary" @click="confirmUpdateAlias"> 确定 </el-button>
         </span>
       </template>
     </el-dialog>
@@ -231,13 +232,7 @@ import { ref, computed, onMounted, reactive } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { UploadFilled, Search } from '@element-plus/icons-vue'
-import { 
-  uploadImage, 
-  listImages, 
-  searchImages, 
-  updateAlias, 
-  deleteImageBatch 
-} from '@/api/user'
+import { uploadImage, listImages, searchImages, updateAlias, deleteImageBatch } from '@/api/user'
 import type { Image } from '@/types'
 
 const userStore = useUserStore()
@@ -251,7 +246,7 @@ const selectedImages = ref<Image[]>([])
 const pagination = reactive({
   page: 1,
   pageSize: 10,
-  total: 0
+  total: 0,
 })
 
 // 上传相关
@@ -259,25 +254,31 @@ const uploadDialogVisible = ref(false)
 const currentFile = ref<File | null>(null)
 const previewUrl = ref('')
 const uploadForm = reactive({
-  alias: ''
+  alias: '',
 })
 
 // 修改别名相关
 const aliasDialogVisible = ref(false)
 const aliasForm = reactive({
   id: 0,
-  alias: ''
+  alias: '',
 })
 
 // 计算属性
 const spacePercentage = computed(() => {
   if (!userStore.userInfo) return 0
-  return Math.min(100, Math.round((userStore.userInfo.usedSpace / userStore.userInfo.quotaSpace) * 100))
+  return Math.min(
+    100,
+    Math.round((userStore.userInfo.usedSpace / userStore.userInfo.quotaSpace) * 100),
+  )
 })
 
 const countPercentage = computed(() => {
   if (!userStore.userInfo) return 0
-  return Math.min(100, Math.round((userStore.userInfo.usedCount / userStore.userInfo.quotaCount) * 100))
+  return Math.min(
+    100,
+    Math.round((userStore.userInfo.usedCount / userStore.userInfo.quotaCount) * 100),
+  )
 })
 
 // 工具函数
@@ -315,7 +316,7 @@ const handleSearch = async () => {
     fetchImages()
     return
   }
-  
+
   try {
     loading.value = true
     const res = await searchImages(searchAlias.value)
@@ -335,13 +336,13 @@ const beforeUpload = (file: File) => {
     ElMessage.error('只能上传图片文件!')
     return false
   }
-  
+
   const isLt10M = file.size / 1024 / 1024 < 10
   if (!isLt10M) {
     ElMessage.error('图片大小不能超过 10MB!')
     return false
   }
-  
+
   return true
 }
 
@@ -349,14 +350,14 @@ const beforeUpload = (file: File) => {
 const customUpload = (options: any) => {
   currentFile.value = options.file
   uploadForm.alias = options.file.name.split('.')[0] // 默认使用文件名作为别名
-  
+
   // 生成预览
   const reader = new FileReader()
   reader.onload = (e) => {
     previewUrl.value = e.target?.result as string
   }
   reader.readAsDataURL(options.file)
-  
+
   uploadDialogVisible.value = true
 }
 
@@ -366,7 +367,7 @@ const confirmUpload = async () => {
     ElMessage.warning('请输入图片别名')
     return
   }
-  
+
   if (!currentFile.value) return
 
   try {
@@ -378,7 +379,7 @@ const confirmUpload = async () => {
     await uploadImage(formData)
     ElMessage.success('上传成功')
     uploadDialogVisible.value = false
-    
+
     // 刷新列表和用户信息
     fetchImages()
     userStore.refreshQuota() // 更新配额信息
@@ -391,11 +392,14 @@ const confirmUpload = async () => {
 
 // 复制链接
 const copyUrl = (url: string) => {
-  navigator.clipboard.writeText(url).then(() => {
-    ElMessage.success('链接已复制到剪贴板')
-  }).catch(() => {
-    ElMessage.error('复制失败，请手动复制')
-  })
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      ElMessage.success('链接已复制到剪贴板')
+    })
+    .catch(() => {
+      ElMessage.error('复制失败，请手动复制')
+    })
 }
 
 // 修改别名
@@ -410,7 +414,7 @@ const confirmUpdateAlias = async () => {
     ElMessage.warning('请输入新别名')
     return
   }
-  
+
   try {
     await updateAlias({ id: aliasForm.id, alias: aliasForm.alias })
     ElMessage.success('修改成功')
@@ -427,9 +431,9 @@ const handleDelete = async (id: number) => {
     await ElMessageBox.confirm('确定要删除这张图片吗?', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      type: 'warning'
+      type: 'warning',
     })
-    
+
     await deleteImageBatch({ ids: [id] })
     ElMessage.success('删除成功')
     fetchImages()
@@ -444,19 +448,19 @@ const handleDelete = async (id: number) => {
 // 批量删除
 const handleBatchDelete = async () => {
   if (selectedImages.value.length === 0) return
-  
+
   try {
     await ElMessageBox.confirm(
-      `确定要删除选中的 ${selectedImages.value.length} 张图片吗?`, 
-      '提示', 
+      `确定要删除选中的 ${selectedImages.value.length} 张图片吗?`,
+      '提示',
       {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
-      }
+        type: 'warning',
+      },
     )
-    
-    const ids = selectedImages.value.map(img => img.id)
+
+    const ids = selectedImages.value.map((img) => img.id)
     await deleteImageBatch({ ids })
     ElMessage.success('删除成功')
     fetchImages()
@@ -499,13 +503,13 @@ onMounted(() => {
 <style scoped>
 .dashboard-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  animation: fadeIn 0.5s ease;
+  background: var(--color-bg-layout);
 }
 
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg-container);
+  border-bottom: 1px solid var(--color-border-lighter);
+  box-shadow: var(--color-shadow-sm);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -520,31 +524,31 @@ onMounted(() => {
 
 .header-content h2 {
   margin: 0;
-  color: #fff;
-  font-size: 24px;
+  color: var(--color-text-base);
+  font-size: 20px;
   font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.02em;
 }
 
 .user-info {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: var(--spacing-md);
 }
 
 .nickname {
   font-weight: 600;
-  color: #fff;
-  font-size: 15px;
+  color: var(--color-text-base);
+  font-size: 14px;
 }
 
 .email {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-secondary);
   font-size: 13px;
 }
 
 .el-main {
-  padding: 24px;
+  padding: var(--spacing-lg);
   max-width: 1400px;
   margin: 0 auto;
   overflow-y: auto;
@@ -555,64 +559,62 @@ onMounted(() => {
 .upload-card,
 .search-card,
 .images-card {
-  margin-bottom: 24px;
-  border-radius: 12px;
-  border: none;
-  animation: slideInUp 0.6s ease;
-  transition: all 0.3s ease;
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-lighter);
+  box-shadow: var(--color-shadow-sm);
+  transition: all var(--transition-base);
 }
 
 .quota-card:hover,
 .upload-card:hover,
 .search-card:hover,
 .images-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--color-shadow-md);
+  border-color: var(--color-border-light);
 }
 
 .card-header {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--color-text-base);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
 }
 
 .card-header::before {
   content: '';
-  width: 4px;
-  height: 18px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 3px;
+  height: 16px;
+  background: var(--color-primary);
   border-radius: 2px;
 }
 
 .quota-item {
-  padding: 16px;
-  background: linear-gradient(135deg, #f8f9ff 0%, #fafbff 100%);
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  padding: var(--spacing-md);
+  background: var(--color-bg-container);
+  border: 1px solid var(--color-border-lighter);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
 }
 
 .quota-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  border-color: var(--primary-200);
+  background: var(--primary-50);
 }
 
 .quota-label {
   font-size: 13px;
-  color: #909399;
-  margin-bottom: 8px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
   font-weight: 500;
 }
 
 .quota-value {
   font-size: 18px;
   font-weight: 600;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text-base);
   margin-bottom: 12px;
 }
 
@@ -621,100 +623,114 @@ onMounted(() => {
 }
 
 :deep(.el-upload-dragger) {
-  border-radius: 12px;
-  border: 2px dashed #d9d9d9;
-  transition: all 0.3s ease;
-  background: linear-gradient(135deg, #fafbff 0%, #f8f9ff 100%);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--color-border-base);
+  transition: all var(--transition-base);
+  background: var(--color-bg-container);
 }
 
 :deep(.el-upload-dragger:hover) {
-  border-color: #667eea;
-  background: linear-gradient(135deg, #f0f2ff 0%, #e8eaff 100%);
-  transform: scale(1.02);
+  border-color: var(--color-primary);
+  background: var(--primary-50);
 }
 
 .el-icon--upload {
-  font-size: 67px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 64px;
+  color: var(--color-primary);
   margin: 40px 0 16px;
 }
 
 .el-upload__text {
   font-size: 14px;
-  color: #606266;
+  color: var(--color-text-base);
 }
 
 .el-upload__text em {
-  color: #667eea;
+  color: var(--color-primary);
   font-style: normal;
   font-weight: 600;
 }
 
 .el-upload__tip {
-  color: #909399;
+  color: var(--color-text-secondary);
   font-size: 12px;
   margin-top: 8px;
 }
 
 .pagination-container {
-  margin-top: 24px;
+  margin-top: var(--spacing-lg);
   display: flex;
   justify-content: flex-end;
 }
 
 :deep(.el-button--danger) {
-  background: linear-gradient(135deg, #f56c6c 0%, #ff5757 100%);
+  background: var(--error);
   border: none;
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
+  color: #fff;
 }
 
 :deep(.el-button--danger:hover) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(245, 108, 108, 0.4);
+  background: #ff7875;
+  box-shadow: 0 2px 8px rgba(255, 77, 79, 0.3);
 }
 
 :deep(.el-button--primary) {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-primary);
   border: none;
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
+  color: #fff;
 }
 
 :deep(.el-button--primary:hover) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  background: var(--color-primary-light);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
+}
+
+:deep(.el-button) {
+  border-radius: var(--radius-md);
+  font-weight: 500;
 }
 
 :deep(.el-table) {
-  border-radius: 8px;
-  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-lighter);
 }
 
 :deep(.el-table__header) {
-  background: linear-gradient(135deg, #f8f9ff 0%, #fafbff 100%);
+  background: var(--gray-50);
 }
 
 :deep(.el-table th) {
   background: transparent;
-  color: #606266;
+  color: var(--color-text-base);
   font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid var(--color-border-lighter);
+}
+
+:deep(.el-table td) {
+  border-bottom: 1px solid var(--color-border-lighter);
+}
+
+:deep(.el-table tbody tr) {
+  transition: all var(--transition-fast);
 }
 
 :deep(.el-table tbody tr:hover) {
-  background: linear-gradient(135deg, #fafbff 0%, #f8f9ff 100%);
+  background: var(--gray-50);
 }
 
 :deep(.el-image) {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  transition: all 0.3s ease;
+  border: 1px solid var(--color-border-lighter);
+  transition: all var(--transition-base);
 }
 
 :deep(.el-image:hover) {
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--color-shadow-md);
 }
 
 :deep(.el-progress__text) {
@@ -722,33 +738,45 @@ onMounted(() => {
   font-weight: 600;
 }
 
+:deep(.el-progress .el-progress-bar__outer) {
+  background-color: var(--gray-200);
+}
+
 :deep(.el-card__header) {
-  border-bottom: 2px solid #f5f7fa;
+  border-bottom: 1px solid var(--color-border-lighter);
   padding: 18px 20px;
+  background: var(--color-bg-container);
 }
 
 :deep(.el-input__wrapper) {
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-base);
+  box-shadow: none;
+  transition: all var(--transition-base);
 }
 
 :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.15);
+  border-color: var(--color-primary-light);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+:deep(.el-input__wrapper.is-focus) {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--primary-100);
 }
 
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:deep(.el-link) {
+  font-size: 14px;
+}
+
+:deep(.el-pagination) {
+  font-weight: 500;
+}
+
+:deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+  background-color: var(--color-primary);
+}
+
+:deep(.el-pagination.is-background .el-pager li:not(.is-disabled):hover) {
+  color: var(--color-primary);
 }
 </style>

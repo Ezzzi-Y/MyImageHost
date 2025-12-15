@@ -1,6 +1,7 @@
 package me.ezzi.myimagehostbackend.satoken.interfaceimpl;
 
 import cn.dev33.satoken.stp.StpInterface;
+import cn.hutool.bloomfilter.BloomFilter;
 import me.ezzi.myimagehostbackend.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class StpInterfaceImpl implements StpInterface {
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
+
         long uid = Long.parseLong(loginId.toString());
         String role = userMapper.getRoleById(uid);
         return List.of(role);
