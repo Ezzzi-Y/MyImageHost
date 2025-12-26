@@ -2,6 +2,7 @@ package me.ezzi.myimagehostbackend.satoken.config;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import me.ezzi.myimagehostbackend.common.constant.RoleConstant;
 import me.ezzi.myimagehostbackend.common.context.BaseContext;
@@ -16,22 +17,22 @@ public class SaTokenConfigure implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SaInterceptor(handler -> {
 
-            //获取当前用户ID
-            Long userId = StpUtil.getLoginIdAsLong();
-            BaseContext.setCurrentId(userId);
+                    SaRouter.match("/admin/**", () -> {
+                        StpUtil.checkRole(RoleConstant.ADMIN);
+                    });
 
-            String requestPath = SaHolder.getRequest().getRequestPath();
-            if (requestPath.contains("/admin/")) {
-                StpUtil.checkRole(RoleConstant.ADMIN);
-            }
+                    SaRouter.match("/**", () -> {
+                        StpUtil.checkLogin();
+                        BaseContext.setCurrentId(StpUtil.getLoginIdAsLong());
+                    });
 
-        }))
+                }))
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/auth/**"
-                )
-                .excludePathPatterns(
-                        "/information/**"
+                        "/user/login",
+                        "/user/register",
+                        "/user/forgetPassword"
                 );
+
     }
 }

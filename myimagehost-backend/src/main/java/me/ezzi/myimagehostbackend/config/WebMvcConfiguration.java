@@ -20,19 +20,6 @@ import java.util.List;
 public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
-     * 注册自定义拦截器
-     *
-     * @param registry
-     */
-    @Override
-    protected void addInterceptors(InterceptorRegistry registry) {
-        log.info("开始注册 Sa-Token 拦截器...");
-        registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
-                .addPathPatterns("/user/**", "/admin/**")
-                .excludePathPatterns("/user/login", "/user/register", "/user/forgetPassword");
-    }
-
-    /**
      * 扩展Spring MVC框架的消息转化器
      * @param converters
      */

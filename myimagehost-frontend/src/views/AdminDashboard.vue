@@ -359,6 +359,38 @@
                 </el-form>
               </el-card>
             </el-tab-pane>
+
+            <el-tab-pane label="功能管理" name="features">
+              <el-card shadow="hover">
+                <template #header>
+                  <div class="card-header">
+                    <span>功能开关管理</span>
+                    <el-button size="small" @click="loadFeatures">刷新</el-button>
+                  </div>
+                </template>
+
+                <el-table :data="features" style="width: 100%" v-loading="loadingFeatures" border>
+                  <el-table-column prop="featureName" label="功能标识" width="200" />
+                  <el-table-column prop="description" label="功能描述" min-width="200" />
+                  <el-table-column label="状态" width="120" align="center">
+                    <template #default="scope">
+                      <el-tag :type="scope.row.enabled ? 'success' : 'danger'" size="small">
+                        {{ scope.row.enabled ? '启用' : '禁用' }}
+                      </el-tag>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="操作" width="120" align="center">
+                    <template #default="scope">
+                      <el-switch
+                        v-model="scope.row.enabled"
+                        @change="handleFeatureToggle(scope.row)"
+                        :loading="scope.row.loading"
+                      />
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-card>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </el-main>
@@ -452,15 +484,11 @@ import {
   searchUser,
   updateTestStatus,
   getTestInfo,
+  getAllFeatures,
+  updateFeatureSwitch,
 } from '@/api/admin'
-import {
-  uploadImage,
-  listImages,
-  searchImages,
-  updateAlias,
-  deleteImageBatch,
-} from '@/api/user'
-import type { User, Image } from '@/types'
+import { uploadImage, listImages, searchImages, updateAlias, deleteImageBatch } from '@/api/user'
+import type { User, Image, FeatureSwitch } from '@/types'
 
 // ... (此处保留你原有的所有 JS 逻辑，无需改动) ...
 
@@ -496,6 +524,10 @@ const imageAliasDialogVisible = ref(false)
 const imageAliasForm = reactive({ id: 0, alias: '' })
 const testStatusForm = reactive({ testStatus: false, testMessage: '' })
 const updatingTestStatus = ref(false)
+
+// 功能开关管理相关
+const features = ref<FeatureSwitch[]>([])
+const loadingFeatures = ref(false)
 
 // 计算属性和工具函数复用原代码...
 const spacePercentage = computed(() => {
@@ -829,14 +861,53 @@ const handleUpdateTestStatus = async () => {
   }
 }
 
+// 功能开关管理相关方法
+const loadFeatures = async () => {
+  loadingFeatures.value = true
+  try {
+    const response = await getAllFeatures()
+    if (response.code === 1) {
+      features.value = response.data || []
+    } else {
+      ElMessage.error(response.message || '加载功能列表失败')
+    }
+  } catch (error: any) {
+    ElMessage.error('加载功能列表失败')
+  } finally {
+    loadingFeatures.value = false
+  }
+}
+
+const handleFeatureToggle = async (feature: FeatureSwitch) => {
+  try {
+    const response = await updateFeatureSwitch({
+      featureName: feature.featureName,
+      enabled: feature.enabled,
+    })
+    if (response.code === 1) {
+      ElMessage.success(`功能【${feature.description}】已${feature.enabled ? '启用' : '禁用'}`)
+    } else {
+      ElMessage.error(response.message || '更新失败')
+      // 失败时回滚状态
+      feature.enabled = !feature.enabled
+    }
+  } catch (error: any) {
+    ElMessage.error('更新功能开关失败')
+    // 失败时回滚状态
+    feature.enabled = !feature.enabled
+  }
+}
+
 watch(activeTab, (newTab) => {
   if (newTab === 'images' && myImages.value.length === 0) fetchMyImages()
   if (newTab === 'settings') loadTestInfo()
+  if (newTab === 'features' && features.value.length === 0) loadFeatures()
 })
 onMounted(() => {
   fetchUsers()
   if (activeTab.value === 'images') fetchMyImages()
   if (activeTab.value === 'settings') loadTestInfo()
+  if (activeTab.value === 'features') loadFeatures()
 })
 </script>
 

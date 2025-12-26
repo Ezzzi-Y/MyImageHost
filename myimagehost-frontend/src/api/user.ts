@@ -8,7 +8,8 @@ import type {
   Image,
   ImageListResponse,
   UpdateAliasRequest,
-  DeleteImagesRequest
+  DeleteImagesRequest,
+  TestInfoResponse,
 } from '@/types'
 
 // 获取邮箱验证码
@@ -35,13 +36,16 @@ export const forgetPassword = (data: ForgetPasswordRequest): Promise<ApiResponse
 export const uploadImage = (formData: FormData): Promise<ApiResponse<null>> => {
   return request.post('/user/upload', formData, {
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+      'Content-Type': 'multipart/form-data',
+    },
   })
 }
 
 // 分页查询图片列表
-export const listImages = (page: number, pageSize: number): Promise<ApiResponse<ImageListResponse>> => {
+export const listImages = (
+  page: number,
+  pageSize: number,
+): Promise<ApiResponse<ImageListResponse>> => {
   return request.get('/user/listImage', { params: { page, pageSize } })
 }
 
@@ -61,6 +65,13 @@ export const deleteImageBatch = (data: DeleteImagesRequest): Promise<ApiResponse
 }
 
 // 获取用户配额信息
-export const getUserQuota = (): Promise<ApiResponse<{ quotaSpace: number; quotaCount: number; usedSpace: number; usedCount: number }>> => {
+export const getUserQuota = (): Promise<
+  ApiResponse<{ quotaSpace: number; quotaCount: number; usedSpace: number; usedCount: number }>
+> => {
   return request.get('/user/quota')
+}
+
+// 获取系统测试信息
+export const getTestInfo = (): Promise<ApiResponse<TestInfoResponse>> => {
+  return request.get('/information/testInf')
 }

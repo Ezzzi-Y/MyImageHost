@@ -227,14 +227,32 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private String extractObjectName(String url) {
+        // 优先处理自定义域名
+        if (aliOssProperties.getCustomDomain() != null && !aliOssProperties.getCustomDomain().isEmpty()) {
+            String customHost = "https://" + aliOssProperties.getCustomDomain() + "/";
+            if (url.startsWith(customHost)) {
+                return url.substring(customHost.length());
+            }
+        }
+        
+        // 处理默认OSS域名
         String host = "https://" + aliOssProperties.getBucketName() + "." + aliOssProperties.getEndpoint() + "/";
         if (url.startsWith(host)) {
             return url.substring(host.length());
         }
+        
+        // 兼容处理其他格式
         int index = url.indexOf(".com/");
         if (index != -1) {
             return url.substring(index + 5);
         }
+        
+        // 处理 .asia/ 等其他域名
+        int asiaIndex = url.lastIndexOf("/");
+        if (asiaIndex != -1 && asiaIndex > 8) {
+            return url.substring(asiaIndex + 1);
+        }
+        
         throw new BaseException("URL 格式错误，无法提取 objectName: " + url);
     }
 }

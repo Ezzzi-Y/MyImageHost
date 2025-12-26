@@ -108,5 +108,9 @@ public class AuthServiceImpl implements AuthService {
         String password = DigestUtils.md5DigestAsHex(forgetPasswordDTO.getPassword().getBytes());
         forgetPasswordDTO.setPassword(password);
         userMapper.updatePassword(forgetPasswordDTO);
+        StpUtil.kickout(list.get(0).getId());
     }
+
+
+
 }

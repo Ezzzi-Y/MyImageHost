@@ -3,6 +3,7 @@ package me.ezzi.myimagehostbackend.controller;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
+import me.ezzi.myimagehostbackend.common.annotation.FeatureSwitch;
 import me.ezzi.myimagehostbackend.pojo.dto.ForgetPasswordDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.LoginDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.RegisterDTO;
@@ -29,6 +30,7 @@ public class AuthController {
     private InformationServiceImpl informationServiceImpl;
 
     @GetMapping("/email/verification")
+    @FeatureSwitch(value = "user.email.send", description = "发送验证码邮件")
     public Result getVerificationCode(
             @RequestParam @NotBlank(message = "邮箱不能为空") @Email(message = "邮箱格式不正确") String email,
             @RequestParam(required = false, defaultValue = "register") String type){
@@ -38,6 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @FeatureSwitch(value = "user.login", description = "用户登录")
     public Result<LoginVO> login(@RequestBody @Validated LoginDTO loginDTO){
         log.info("用户登录");
         LoginVO loginVO = authService.login(loginDTO);
@@ -45,6 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @FeatureSwitch(value = "user.register", description = "用户注册")
     public Result<LoginVO> register(@RequestBody @Validated RegisterDTO registerDTO){
         log.info("用户注册");
         LoginVO loginVO = authService.register(registerDTO);
@@ -52,6 +56,7 @@ public class AuthController {
     }
 
     @PostMapping("/forgetPassword")
+    @FeatureSwitch(value = "user.reset.password", description = "用户重置密码")
     public Result forgetPassword(@RequestBody @Validated ForgetPasswordDTO forgetPasswordDTO){
         log.info("用户忘记密码");
         authService.forgetPassword(forgetPasswordDTO);

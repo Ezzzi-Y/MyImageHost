@@ -1,6 +1,7 @@
 package me.ezzi.myimagehostbackend.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import me.ezzi.myimagehostbackend.common.annotation.FeatureSwitch;
 import me.ezzi.myimagehostbackend.pojo.dto.DeleteImageDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.ImageDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.UpdateAliasDTO;
@@ -22,6 +23,7 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/upload")
+    @FeatureSwitch(value = "user.upload", description = "用户上传文件")
     public Result upload(ImageDTO imageDTO){
         log.info("用户上传{}", imageDTO);
         imageService.uploadFile(imageDTO);
@@ -35,6 +37,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/deleteImageBatch")
+    @FeatureSwitch(value = "user.delete", description = "用户删除文件")
     public Result deleteBatch(@RequestBody DeleteImageDTO deleteImageDTO){
         log.info("用户批量删除文件：{}", deleteImageDTO);
         imageService.deleteBatchByIds(deleteImageDTO.getIds());

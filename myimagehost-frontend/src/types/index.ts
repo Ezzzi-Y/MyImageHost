@@ -103,3 +103,26 @@ export interface QuotaResponse {
   usedSpace: number
   usedCount: number
 }
+
+// 系统测试信息类型
+export interface TestInfoResponse {
+  testStatus: boolean
+  testMessage: string
+}
+
+export interface UpdateTestStatusRequest {
+  testStatus: boolean
+  testMessage: string
+}
+
+// 功能开关类型
+export interface FeatureSwitch {
+  featureName: string
+  description: string
+  enabled: boolean
+}
+
+export interface UpdateFeatureSwitchRequest {
+  featureName: string
+  enabled: boolean
+}

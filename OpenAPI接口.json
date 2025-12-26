@@ -14,6 +14,9 @@
     },
     {
       "name": "账户相关"
+    },
+    {
+      "name": "公开展示信息接口"
     }
   ],
   "paths": {
@@ -655,6 +658,72 @@
         "security": []
       }
     },
+    "/admin/updateTestStatus": {
+      "put": {
+        "summary": "修改测试状态",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "管理端接口"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testStatus": {
+                    "type": "boolean",
+                    "description": "测试状态"
+                  },
+                  "testMessage": {
+                    "type": "string",
+                    "description": "测试信息"
+                  }
+                },
+                "required": [
+                  "testStatus",
+                  "testMessage"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/user/upload": {
       "post": {
         "summary": "上传文件",
@@ -1240,8 +1309,17 @@
             "name": "email",
             "in": "query",
             "description": "",
-            "required": false,
+            "required": true,
             "example": "xingyuan_guo@outlook.com",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1451,6 +1529,67 @@
                     "message",
                     "data"
                   ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/information/testInf": {
+      "get": {
+        "summary": "获取测试信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "公开展示信息接口"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "testStatus": {
+                          "type": "boolean"
+                        },
+                        "testMessage": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "testStatus",
+                        "testMessage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 1,
+                  "message": "success",
+                  "data": {
+                    "testStatus": true,
+                    "testMessage": "系统内测中"
+                  }
                 }
               }
             },

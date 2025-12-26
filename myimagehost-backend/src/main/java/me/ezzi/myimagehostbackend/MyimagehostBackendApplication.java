@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@MapperScan("me.ezzi.myimagehostbackend.mapper")
 @EnableScheduling
 public class MyimagehostBackendApplication {
 

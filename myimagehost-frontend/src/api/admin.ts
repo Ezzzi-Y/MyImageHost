@@ -4,7 +4,10 @@ import type {
   User,
   DisableUserRequest,
   UpdateSpaceRequest,
-  SearchUserRequest
+  SearchUserRequest,
+  UpdateTestStatusRequest,
+  FeatureSwitch,
+  UpdateFeatureSwitchRequest,
 } from '@/types'
 
 // 查询用户列表
@@ -40,4 +43,28 @@ export const searchUser = (data: SearchUserRequest): Promise<ApiResponse<User[]>
 // 根据ID获取用户
 export const getUser = (id: number): Promise<ApiResponse<User>> => {
   return request.get(`/admin/getUser/${id}`)
+}
+
+// 更新系统测试状态
+export const updateTestStatus = (data: UpdateTestStatusRequest): Promise<ApiResponse<null>> => {
+  return request.put('/admin/updateTestStatus', data)
+}
+
+// 获取系统测试信息
+export const getTestInfo = (): Promise<
+  ApiResponse<{ testStatus: boolean; testMessage: string }>
+> => {
+  return request.get('/information/testInf')
+}
+
+// 获取所有功能开关
+export const getAllFeatures = (): Promise<ApiResponse<FeatureSwitch[]>> => {
+  return request.get('/admin/features')
+}
+
+// 更新功能开关状态
+export const updateFeatureSwitch = (
+  data: UpdateFeatureSwitchRequest
+): Promise<ApiResponse<null>> => {
+  return request.put('/admin/features', data)
 }

@@ -29,6 +29,5 @@ public class InformationServiceImpl implements InformationService {
     @Override
     public void stopTest() {
         isTesting = false;
-        this.testMessage = "";
     }
 }

@@ -62,3 +62,4 @@ ezzi:
     access-key-id: ${alioss.access-key-id}
     access-key-secret: ${alioss.access-key-secret}
     bucket-name: ${alioss.bucket-name}
+    custom-domain: ${alioss.custom-domain}

@@ -3,12 +3,15 @@ package me.ezzi.myimagehostbackend.controller;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import lombok.extern.slf4j.Slf4j;
 import me.ezzi.myimagehostbackend.pojo.dto.DisableUserDTO;
+import me.ezzi.myimagehostbackend.pojo.dto.FeatureSwitchDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.SearchUserDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.TestDTO;
 import me.ezzi.myimagehostbackend.pojo.dto.UpdateUserDTO;
 import me.ezzi.myimagehostbackend.pojo.entity.Result;
+import me.ezzi.myimagehostbackend.pojo.vo.FeatureSwitchVO;
 import me.ezzi.myimagehostbackend.pojo.vo.UserVO;
 import me.ezzi.myimagehostbackend.service.AdminService;
+import me.ezzi.myimagehostbackend.service.FeatureSwitchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private FeatureSwitchService featureSwitchService;
 
     @GetMapping("/list")
     public Result<List<UserVO>> list() {
@@ -74,6 +80,21 @@ public class AdminController {
     public Result updateTestStatus(@RequestBody TestDTO testDTO){
         log.info("管理员修改用户测试状态{}",testDTO);
         adminService.updateTestStatus(testDTO);
+        return Result.success();
+    }
+
+    // ==================== 功能开关管理 ====================
+
+    @GetMapping("/features")
+    public Result<List<FeatureSwitchVO>> getAllFeatures() {
+        log.info("管理员查询所有功能开关");
+        return Result.success(featureSwitchService.getAllFeatures());
+    }
+
+    @PutMapping("/features")
+    public Result updateFeatureSwitch(@RequestBody @Validated FeatureSwitchDTO dto) {
+        log.info("管理员更新功能开关: {} -> {}", dto.getFeatureName(), dto.getEnabled());
+        featureSwitchService.updateFeatureSwitch(dto.getFeatureName(), dto.getEnabled());
         return Result.success();
     }
 

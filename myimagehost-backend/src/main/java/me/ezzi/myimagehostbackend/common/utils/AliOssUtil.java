@@ -20,6 +20,7 @@ public class AliOssUtil {
     private String accessKeyId;
     private String accessKeySecret;
     private String bucketName;
+    private String customDomain; // 自定义域名
 
     /**
      * 文件上传
@@ -40,7 +41,13 @@ public class AliOssUtil {
             }
         }
 
-        String url = "https://" + bucketName + "." + endpoint + "/" + objectName;
+        // 使用自定义域名，如果没有配置则使用默认OSS域名
+        String url;
+        if (customDomain != null && !customDomain.isEmpty()) {
+            url = "https://" + customDomain + "/" + objectName;
+        } else {
+            url = "https://" + bucketName + "." + endpoint + "/" + objectName;
+        }
         log.info("文件上传成功: {}", url);
         return url;
     }

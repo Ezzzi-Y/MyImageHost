@@ -19,7 +19,8 @@ public class AliyunOssConfiguration {
         return new AliOssUtil(aliOssProperties.getEndpoint(),
                 aliOssProperties.getAccessKeyId(),
                 aliOssProperties.getAccessKeySecret(),
-                aliOssProperties.getBucketName());
+                aliOssProperties.getBucketName(),
+                aliOssProperties.getCustomDomain());
     }
 
 }
